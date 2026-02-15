@@ -80,11 +80,9 @@ npm run start
 ### Improvements With More Time
 
 * Add pagination or infinite scrolling for search results.
+* Add sorting + filtering in Favorites (sort by rating or release year/date, optionally filter “rated only”).
 * Add response caching with a short TTL on the proxy routes.
 * Improve accessibility (focus trapping in modal, keyboard navigation) and add loading skeletons.
 * Add optional server-side persistence (Next.js API + lightweight DB) for cross-device favorites.
 * Add basic tests (utilities + favorites flow) to improve reliability.
 
-```
-::contentReference[oaicite:0]{index=0}
-```
