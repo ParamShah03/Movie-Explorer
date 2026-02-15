@@ -1,4 +1,3 @@
-````md
 # Movie Explorer
 
 ## Hosted App
@@ -15,7 +14,6 @@
 ### Install
 ```bash
 npm install
-````
 
 ### Configure Environment Variables
 
