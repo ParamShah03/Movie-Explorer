@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+````md
+# Movie Explorer
 
-## Getting Started
+## Hosted App
+- **Live URL:** https://<YOUR_VERCEL_URL>.vercel.app
 
-First, run the development server:
+---
+
+## Setup & Run Instructions
+
+### Prerequisites
+- **Node.js 18+** (recommended: Node 20)
+- **TMDB API key (v3)**
+
+### Install
+```bash
+npm install
+````
+
+### Configure Environment Variables
+
+Create **`.env.local`** in the project root:
+
+```txt
+TMDB_API_KEY=YOUR_TMDB_V3_API_KEY
+```
+
+> Keep this server-side (do **not** prefix with `NEXT_PUBLIC_`).
+
+### Run (Development)
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build / Run (Production)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Technical Decisions & Tradeoffs
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### API Proxy (TMDB key stays server-side)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* The client calls **Next.js API routes** under `/api/tmdb/...`.
+* Those routes call TMDB using `process.env.TMDB_API_KEY`, so the key is never exposed in the browser.
 
-## Deploy on Vercel
+**Tradeoff:** Adds a small extra hop/latency, but improves security and keeps external API logic centralized.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### State Management (React Context)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Favorites, ratings, and notes are managed via a lightweight `FavoritesContext`.
+* This avoids extra dependencies and keeps shared state consistent across components.
+
+**Tradeoff:** Context is ideal for this small scope; for larger apps, a dedicated state library (e.g., Zustand/Redux) or server-state tooling could be considered.
+
+### Persistence (LocalStorage)
+
+* Favorites persist via **LocalStorage** so they survive refresh without any backend/database setup.
+
+**Tradeoff:** Data is per-device and not shared across browsers/devices; no multi-user sync.
+
+---
+
+## Known Limitations & What I’d Improve With More Time
+
+### Known Limitations
+
+* Search uses only the first page of results (no pagination/infinite scroll).
+* No caching layer for TMDB responses (could hit rate limits under heavy usage).
+* Basic UI/UX (functional over polished), minimal accessibility refinements.
+* Persistence is client-only (LocalStorage), no cross-device sync.
+
+### Improvements With More Time
+
+* Add pagination or infinite scrolling for search results.
+* Add response caching with a short TTL on the proxy routes.
+* Improve accessibility (focus trapping in modal, keyboard navigation) and add loading skeletons.
+* Add optional server-side persistence (Next.js API + lightweight DB) for cross-device favorites.
+* Add basic tests (utilities + favorites flow) to improve reliability.
+
+```
+::contentReference[oaicite:0]{index=0}
+```
