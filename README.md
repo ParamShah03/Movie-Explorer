@@ -1,7 +1,7 @@
 # Movie Explorer
 
 ## Hosted App
-- **Live URL:** https://<YOUR_VERCEL_URL>.vercel.app
+- **Live URL:** https://movie-explorer-peach-five.vercel.app/
 
 ---
 
