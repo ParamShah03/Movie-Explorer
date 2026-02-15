@@ -15,6 +15,8 @@
 ```bash
 npm install
 
+````
+
 ### Configure Environment Variables
 
 Create **`.env.local`** in the project root:
